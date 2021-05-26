@@ -1,0 +1,92 @@
+
+void r_rectF(word x1, byte y1, word x2, byte y2, byte col) {
+
+  if (x1 > x2) {
+    word temp = x1;
+    x1 = x2;
+    x2 = temp;
+  }
+
+  if (y1 > y2) {
+    byte temp = y1;
+    y1 = y2;
+    y2 = temp
+  }
+
+  word address = y1 * 320 + x1;
+
+  for (; y1 < y2; y1++) {
+    for (; x1 < x2; x1++) {
+      buffer[address] = col;
+
+      address++;
+    }
+
+    address += 320;
+  }
+
+}
+
+void r_rectFC(word x, byte y, word width, byte height, byte col) {
+  word halfW = width / 2;
+  byte halfH = height / 2;
+  r_rectF(x - halfW, y - halfH, x + halfW, y + halfH, col);
+}
+
+void r_line(word x1, byte y1, word x2, byte y2, byte col) {
+
+  if (x1 > x2) {
+    word temp = x1;
+    x1 = x2;
+    x2 = temp;
+  }
+
+  if (y2 > y1) {
+    byte temp = y1;
+    y1 = y2;
+    y2 = temp;
+  }
+
+  word b = 0;
+
+  word dx = x2 - x1;
+  word dy = y2 - y1;
+
+  word dx2 = dx * 2;
+  word dy2 = dy * 2;
+
+  byte ix = x1 < x2 ? 1 : -1;
+  byte iy = y1 < y2 ? 1 : -1;
+
+  if (dx >= dy) {
+    while (true) {
+      r_pix(x1, y1, col);
+      if (x1 == x2) {
+        break;
+      }
+
+      x1 += ix;
+      d += dy2;
+
+      if (d > dx) {
+        y1 += iy;
+        d -= dx2;
+      }
+    }
+  } else while (true) {
+    r_pix(x1, y2, col);
+
+    if (y1 == y2) {
+      break;
+    }
+
+    y1 += iy;
+    d += dx2;
+
+    if (d > dy) {
+      x1 += ix;
+      d -= dy2;
+    }
+  }
+
+}

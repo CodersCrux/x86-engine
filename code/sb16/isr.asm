@@ -1,0 +1,4 @@
+MODEL small
+
+DATASEG
+  
